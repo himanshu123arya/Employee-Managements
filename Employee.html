@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+   class Employee {
+  #name;
+  #id;
+
+  constructor(name, id) {
+    if (new.target === Employee) {
+      throw new Error("Cannot instantiate abstract class Employee");
+    }
+    this.#name = name;
+    this.#id = id;
+  }
+
+  getName() {
+    return this.#name;
+  }
+
+  getId() {
+    return this.#id;
+  }
+
+
+  calculatePay() {
+    throw new Error("calculatePay() must be implemented by subclass");
+  }
+
+  displayDetails() {
+    console.log(`Employee: ${this.getName()} | ID: ${this.getId()}`);
+  }
+}
+
+
+class FullTimeEmployee extends Employee {
+  constructor(name, id, annualSalary) {
+    super(name, id);
+    this.annualSalary = annualSalary;
+  }
+
+  calculatePay() {
+    const monthlyPay = this.annualSalary / 12;
+    console.log(`${this.getName()} (Full-Time) earns ₹${monthlyPay.toFixed(2)} per month`);
+    return monthlyPay;
+  }
+}
+
+
+class PartTimeEmployee extends Employee {
+  constructor(name, id, hourlyRate, hoursWorked) {
+    super(name, id);
+    this.hourlyRate = hourlyRate;
+    this.hoursWorked = hoursWorked;
+  }
+
+  calculatePay() {
+    const pay = this.hourlyRate * this.hoursWorked;
+    console.log(`${this.getName()} (Part-Time) earns ₹${pay.toFixed(2)} this month`);
+    return pay;
+  }
+}
+
+
+class Contractor extends Employee {
+  constructor(name, id, projectRate) {
+    super(name, id);
+    this.projectRate = projectRate;
+  }
+
+  calculatePay() {
+    console.log(`${this.getName()} (Contractor) gets ₹${this.projectRate.toFixed(2)} per project`);
+    return this.projectRate;
+  }
+}
+
+
+const employees = [
+  new FullTimeEmployee("Himanshu", "EMP1001", 1200000),
+  new PartTimeEmployee("Kavita", "EMP1002", 500, 60),
+  new Contractor("Lovekush", "EMP1003", 40000),
+];
+
+employees.forEach(emp => {
+  emp.displayDetails();
+  emp.calculatePay();
+  console.log("--------");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+    
+</body>
+</html>
